@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Daily — an origami koi in code</title>
+    <meta
+      name="description"
+      content="Create Daily is a creative coding study: a procedurally folded origami koi, rendered in Three.js, that swims after your pointer and eats what you feed it."
+    />
+    <meta name="theme-color" content="#d7261e" />
+    <meta property="og:title" content="Create Daily — an origami koi in code" />
+    <meta
+      property="og:description"
+      content="A paper koi folded entirely in code. Move to lead it, click to feed it."
+    />
+    <meta property="og:image" content="https://saisumedh18.github.io/create-daily/preview.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  </head>
+  <body>
+    <a class="skip" href="#notes">Skip to notes</a>
+
+    <header class="hero" id="hero">
+      <h1 class="type" aria-label="Create Daily">
+        <span class="type__line type__line--top" aria-hidden="true">CREATE</span>
+        <span class="type__line type__line--bottom" aria-hidden="true">DAILY</span>
+      </h1>
+
+      <div class="stage" id="stage" aria-hidden="true"></div>
+
+      <p class="cap cap--tl">
+        <span class="cap__mark">Create Daily</span>
+        <span class="cap__dim">Fold no. 001 — Koi</span>
+      </p>
+      <p class="cap cap--tr">
+        A daily practice<br />in paper &amp; code
+      </p>
+      <p class="cap cap--bl">
+        <span class="cap__dim" id="hint">Move to lead · Click to feed</span>
+      </p>
+      <div class="cap cap--br">
+        <button class="feed" id="feed" type="button">
+          <span class="feed__dot" aria-hidden="true"></span>
+          Feed the koi
+        </button>
+      </div>
+    </header>
+
+    <main class="notes" id="notes">
+      <div class="notes__head">
+        <p class="eyebrow">Notes on the fold</p>
+        <h2 class="notes__title">One sheet, three ideas.</h2>
+      </div>
+      <ol class="notes__list">
+        <li class="note">
+          <span class="note__num">01</span>
+          <h3 class="note__title">Folded in code</h3>
+          <p class="note__body">
+            Every facet is generated: diamond rings along the spine, a forked tail, pleated
+            dorsal and paper pectorals. No models, no textures — colour is assigned face by face,
+            like ink on a folded sheet.
+          </p>
+        </li>
+        <li class="note">
+          <span class="note__num">02</span>
+          <h3 class="note__title">Swims like a fish</h3>
+          <p class="note__body">
+            A travelling sine wave runs head to tail, growing toward the fin. The faster it
+            swims, the quicker the tail beats, and it banks gently into every turn.
+          </p>
+        </li>
+        <li class="note">
+          <span class="note__num">03</span>
+          <h3 class="note__title">Follows you</h3>
+          <p class="note__body">
+            Move your pointer to lead it across the pond. Click or tap to drop a pellet — it will
+            turn, chase and eat. Left alone, it wanders a slow lissajous loop.
+          </p>
+        </li>
+      </ol>
+    </main>
+
+    <footer class="foot">
+      <p>
+        A creative coding study by
+        <a href="https://saisumedhkaveti.work">Sai Sumedh Kaveti</a>
+      </p>
+      <p class="foot__links">
+        <a href="https://github.com/SaiSumedh18/create-daily">Source</a>
+        <span aria-hidden="true">·</span>
+        <span>Three.js, TypeScript, Archivo</span>
+      </p>
+    </footer>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
