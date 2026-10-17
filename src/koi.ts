@@ -47,7 +47,7 @@ const C = {
 type Patch = { s: number; u: number; rs: number; ru: number; tone: 'hi' | 'sumi' };
 
 // Kohaku patches with a few showa-style sumi spots, in (s, lateral u) space.
-const PATCHES: Patch[] = [
+export const KOHAKU: Patch[] = [
   { s: 0.12, u: 0.05, rs: 0.075, ru: 0.62, tone: 'hi' },
   { s: 0.42, u: 0.38, rs: 0.13, ru: 0.72, tone: 'hi' },
   { s: 0.4, u: -0.6, rs: 0.06, ru: 0.42, tone: 'hi' },
@@ -56,6 +56,19 @@ const PATCHES: Patch[] = [
   { s: 0.6, u: 0.72, rs: 0.04, ru: 0.3, tone: 'sumi' },
   { s: 0.87, u: 0.25, rs: 0.03, ru: 0.36, tone: 'sumi' },
 ];
+
+// Showa: bold sumi wrapping the body, broken up by hi and white.
+export const SHOWA: Patch[] = [
+  { s: 0.09, u: -0.2, rs: 0.07, ru: 0.7, tone: 'hi' },
+  { s: 0.22, u: 0.55, rs: 0.07, ru: 0.5, tone: 'sumi' },
+  { s: 0.36, u: -0.35, rs: 0.1, ru: 0.75, tone: 'sumi' },
+  { s: 0.5, u: 0.4, rs: 0.11, ru: 0.8, tone: 'hi' },
+  { s: 0.62, u: -0.5, rs: 0.07, ru: 0.55, tone: 'sumi' },
+  { s: 0.78, u: 0.2, rs: 0.08, ru: 0.7, tone: 'sumi' },
+  { s: 0.7, u: -0.1, rs: 0.06, ru: 0.6, tone: 'hi' },
+];
+
+let PATCHES = KOHAKU;
 
 // Small deterministic hash so facets get stable shade jitter.
 function hash(n: number) {
@@ -94,7 +107,8 @@ export class Koi {
   private readonly flap: Float32Array;
   private readonly flapSide: Float32Array;
 
-  constructor() {
+  constructor(patches: Patch[] = KOHAKU) {
+    PATCHES = patches;
     const pos: number[] = [];
     const col: number[] = [];
     const sArr: number[] = [];
@@ -283,8 +297,12 @@ export class Koi {
    * @param amp     lateral amplitude at the tail root, world units
    * @param bend    static curvature from turning (positive bends the tail toward +z)
    * @param flutter fin flutter phase
+   * @param fold    0 = a flat, closed sheet; 1 = fully folded fish
    */
-  deform(phase: number, amp: number, bend: number, flutter: number, finAmp: number) {
+  deform(phase: number, amp: number, bend: number, flutter: number, finAmp: number, fold = 1) {
+    // fins and tail open last, so the body creases first and then the paper spreads out
+    const body = Math.min(1, fold * 1.5);
+    const fins = THREE.MathUtils.smoothstep(fold, 0.35, 1);
     const p = this.geometry.attributes.position.array as Float32Array;
     const rest = this.rest;
     const k = 5.2; // spatial frequency: a bit under one wavelength on the body
@@ -296,12 +314,13 @@ export class Koi {
       const wave = Math.sin(k * sp - phase);
       const lateral = amp * envelope * wave + bend * sp * sp;
       const i3 = i * 3;
+      const side = this.flapSide[i];
       p[i3] = rest[i3];
-      p[i3 + 1] = rest[i3 + 1];
-      p[i3 + 2] = rest[i3 + 2] + lateral;
+      p[i3 + 1] = SIDE_Y + (rest[i3 + 1] - SIDE_Y) * body;
+      p[i3 + 2] = (side !== 0 ? rest[i3 + 2] * (0.3 + 0.7 * fins) : rest[i3 + 2]) + lateral;
       const fl = this.flap[i];
       if (fl > 0) {
-        p[i3 + 1] += fl * finAmp * Math.sin(flutter + this.flapSide[i] * 0.9);
+        p[i3 + 1] += fl * finAmp * Math.sin(flutter + side * 0.9);
       }
     }
     this.geometry.attributes.position.needsUpdate = true;

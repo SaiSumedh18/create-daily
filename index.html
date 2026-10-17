@@ -37,8 +37,11 @@
         A daily practice<br />in paper &amp; code
       </p>
       <p class="cap cap--bl">
+        <span class="cap__fed">Fed today <span class="cap__count" id="fed-count" aria-live="polite">00</span></span>
         <span class="cap__dim" id="hint">Move to lead · Click to feed</span>
       </p>
+
+      <div class="cursor" id="cursor" aria-hidden="true"></div>
       <div class="cap cap--br">
         <button class="feed" id="feed" type="button">
           <span class="feed__dot" aria-hidden="true"></span>
@@ -48,12 +51,12 @@
     </header>
 
     <main class="notes" id="notes">
-      <div class="notes__head">
+      <div class="notes__head" data-reveal>
         <p class="eyebrow">Notes on the fold</p>
         <h2 class="notes__title">One sheet, three ideas.</h2>
       </div>
       <ol class="notes__list">
-        <li class="note">
+        <li class="note" data-reveal>
           <span class="note__num">01</span>
           <h3 class="note__title">Folded in code</h3>
           <p class="note__body">
@@ -62,7 +65,7 @@
             like ink on a folded sheet.
           </p>
         </li>
-        <li class="note">
+        <li class="note" data-reveal>
           <span class="note__num">02</span>
           <h3 class="note__title">Swims like a fish</h3>
           <p class="note__body">
@@ -70,7 +73,7 @@
             swims, the quicker the tail beats, and it banks gently into every turn.
           </p>
         </li>
-        <li class="note">
+        <li class="note" data-reveal>
           <span class="note__num">03</span>
           <h3 class="note__title">Follows you</h3>
           <p class="note__body">
